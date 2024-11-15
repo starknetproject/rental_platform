@@ -5,9 +5,9 @@ mod starkbnb_contract {
         Map, StoragePathEntry, Vec, StoragePointerReadAccess, VecTrait, MutableVecTrait,
         StoragePointerWriteAccess
     };
-    use rental_platform::interfaces::{ guest::IGuestHandler, host::IHostHandler };
+    use rental_platform::interfaces::{guest::IGuestHandler, host::IHostHandler};
     use rental_platform::service::contract_service;
-    use rental_platform::structs::host::{ Host, BookedService };
+    use rental_platform::structs::host::{Host, BookedService};
     use openzeppelin::access::ownable::OwnableComponent;
 
     #[storage]
@@ -29,7 +29,9 @@ mod starkbnb_contract {
     /// receiving of tokens, both from the host, and the guest, and charges sent to the
     /// third parameter, the devs as holders. Subject to change.
     #[constructor]
-    fn constructor(ref self: ContractState, broker: ContractAddress, holders: Array<ContractAddress>) {
+    fn constructor(
+        ref self: ContractState, broker: ContractAddress, holders: Array<ContractAddress>
+    ) {
         // contract_service::initialize_contract(broker, holders);
         self.broker.write(broker);
         self.services_count.write(0_u64);
@@ -38,5 +40,4 @@ mod starkbnb_contract {
         };
         self.services_count.write(0);
     }
-
 }

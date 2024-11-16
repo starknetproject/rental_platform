@@ -1,0 +1,17 @@
+{
+    "version": 2,
+    "builds": [
+        {
+            "src": "frontend/starkbnb-web/package.json",
+            "use": "@vercel/static-build"
+        }
+    ],
+    "rootDirectory": "frontend/starkbnb-web",
+    "framework": "nextjs",
+    "routes": [
+        {
+            "src": "/(.*)",
+            "dest": "frontend/starkbnb-web"
+        }
+    ]
+}

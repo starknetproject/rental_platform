@@ -12,8 +12,5 @@
             "src": "/(.*)",
             "dest": "frontend/starkbnb-web"
         }
-    ],
-    "scripts": {
-        "build": "npm install --legacy-peer-deps && npm run build"
-    }
+    ]
 }

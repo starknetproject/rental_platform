@@ -13,22 +13,25 @@ import {
 import { InjectedConnector } from "starknetkit/injected";
 import { ArgentMobileConnector } from "starknetkit/argentMobile";
 import { WebWalletConnector } from "starknetkit/webwallet";
+import { kakarotConnectors } from "@starknet-react/kakarot";
+import { OKXSVG } from '../../public/okx-svg'
 
 export function StarknetProvider({
     children}: {children: 
         React.ReactNode}) {
 
+    const provider = publicProvider()
     const { connectors: injected } = useInjectedConnectors({
-        recommended: [argent(), braavos()],
+        recommended: [argent(), braavos(), ...kakarotConnectors(provider)],
         includeRecommended: 'always',
         order: 'alphabetical',
     })
 
     const connectors = [
         ...injected,
-        new InjectedConnector({options: {id: "okxwallet", name: "OKX Wallet"}}),
-        new WebWalletConnector({ url: "https://web.argent.xyz" }),
-        new ArgentMobileConnector(),
+        new InjectedConnector({options: {id: "okxwallet", name: "OKX Wallet", icon: OKXSVG}}),
+        new WebWalletConnector({ url: "https://web.argent.xyz"}),
+        // new ArgentMobileConnector(),
     ]
 
     return (

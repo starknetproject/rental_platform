@@ -6,6 +6,7 @@ import { useState } from "react";
 import Button from "./ui/Button";
 import { FaWallet } from "react-icons/fa";
 import Image from "next/image";
+import { trimString } from "../utils/helpers";
 
 const loader = ({ src }: {src: string}) => {
     return src;
@@ -59,7 +60,9 @@ const Wallet = ({ name, alt, src, connector, handleToggleModal }: WalletProps) =
                     )
                 }
             </div>
-            <p className="text-white">{name}</p>
+            <p className="text-white">
+                {connector.available() ? `${connector.name}`:`Install ${connector.name}`}
+            </p>
         </button>
      );
 }
@@ -82,7 +85,7 @@ const ConnectModal = ({isOpen, handleToggleModal}: ConnectModalProps) => {
         if (typeof icon === 'string') {
             return icon
         }
-        return 'dark' in icon? icon.dark : '';
+        return 'light' in icon? icon.light : '';
     }
 
     return ( 
@@ -105,7 +108,7 @@ const ConnectModal = ({isOpen, handleToggleModal}: ConnectModalProps) => {
                             // </button>
                             <Wallet 
                                 key={connector.id || index}
-                                src={getIconSrc(connector.icon)}
+                                src={getIconSrc(connector.icon).toString()}
                                 name={connector.name}
                                 alt="alt"
                                 connector={connector}
@@ -128,7 +131,7 @@ const ConnectorButton = () => {
     
     return (
         <div>
-            <Button text="Connect Wallet" clickHandler={handleToggleModal} type="button" dark icon={FaWallet} iconsize={1}/>
+            <Button text={address ? trimString(address, 10) : "Connect Wallet"} clickHandler={handleToggleModal} type="button" dark icon={FaWallet} iconsize={1}/>
             <ConnectModal isOpen={isOpen} handleToggleModal={handleToggleModal}/>
         </div> 
      );

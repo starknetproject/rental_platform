@@ -1,4 +1,5 @@
 import React from 'react'
+import { MdOutlineClose } from 'react-icons/md'
 
 type ModalProps = {
     isOpen: boolean,
@@ -13,7 +14,7 @@ export const Modal = ({isOpen, onClose, children} : ModalProps) => {
         <div className='bg-gray-900 rounded-lg shadow-xl px-6 py-4 w-fit'>
             <div className="flex justify-end">
                 <button className="text-white hover:text-gray-700" onClick={onClose}>
-                    ×
+                    <MdOutlineClose className='text-2xl hover:bg-red-400 hover:rounded-none'/>
                 </button>
             </div>
             <div className="p-4">{children}</div>

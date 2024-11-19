@@ -27,10 +27,10 @@ pub mod TransactionHandlerComponent {
 
     #[storage]
     pub struct Storage {
-        host: ContractAddress,
-        transactions: Map<ContractAddress, Vec<TransactionData>>,
-        refund: Map<ContractAddress, Vec<TransactionData>>,
-        check_in: Map<ContractAddress, Vec<TransactionData>>,
+        transactionDatas: Vec<TransactionData>, // map guest => TransactionDataStruct
+        transactions: Map<ContractAddress, TransactionData>, // map guest => TransactionDataStruct
+        refund: Map<ContractAddress, TransactionData>, // map guest => TransactionDataStruct
+        check_in: Map<ContractAddress, TransactionData>, // map guest => TransactionDataStruct
     };
 
     #[constructor]
@@ -41,7 +41,13 @@ pub mod TransactionHandlerComponent {
     #[abi(embed_v0)]
     impl TransactionHandlerImpl of super::ITransactionHandler<TContractState> {
         fn book_listing(ref self: ContractState, new_listing: TransactionData) {
-            self.transactions.entry(new_listing.guest).append().write(new_listing);
+
+            let caller = get_caller_address();
+            let guest = new_listing.guest;
+
+            assert(caller == guest, "Only the guest can book a listing");
+
+            self.transactions.write(new_listing.guest, new_listing);
         }
 
         fn initiate_refund(ref self: ContractState, refund_info: TransactionData) {

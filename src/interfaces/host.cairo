@@ -1,5 +1,5 @@
 use starknet::ContractAddress;
-use rental_platform::structs::host::ServiceData;
+use rental_platform::structs::host::Service;
 
 /// For Devs, note:
 /// 1.  upload_service uploads a service to the dApp, which will in the future TODO: Start a poll.
@@ -12,7 +12,8 @@ use rental_platform::structs::host::ServiceData;
 ///     poll has been concluded. If in favour with the host, it is set to true, else it remains false.
 ///     TODO: For a Guest to book a service, always sheck this value.
 /// 
-/// 4.  is_open -- returns a boolean value if the service is open for use or not.
+/// 4.  is_open -- returns a tuple -- boolean value if the service is open for use or not, and the no. of days it has
+///     been booked from the timestamp
 /// 
 /// 5.  transfer_ownership -- Can only be done by the owner. Transfer the ownership of a service to another.
 /// 
@@ -27,11 +28,15 @@ use rental_platform::structs::host::ServiceData;
 #[starknet::interface]
 pub trait IHostHandler<TContractState> {
     fn upload_service(ref self: TContractState, host: ContractAddress, name: felt252) -> (bool, felt252); // done
-    fn update_service(ref self: TContractState, service_id: felt252, data: ServiceData);
-    fn is_eligible(self: @TContractState, host: ContractAddress, service_id: felt252) -> bool;
-    fn is_open(self: @TContractState, host: ContractAddress) -> bool;
-    fn transfer_ownership(ref self: TContractState, new_host: ContractAddress);
-    fn delete_service(self: @TContractState, service_id: felt252) -> bool;
+    fn update_service(ref self: TContractState, service_id: felt252, cost: u128);           // done
+    fn is_eligible(ref self: TContractState, service_id: felt252) -> bool;                  // done
+    fn is_open(ref self: TContractState, service_id: felt252) -> (bool, u64);               // done
+    fn transfer_ownership(ref self: TContractState, new_host: ContractAddress, service_id: felt252);    // done
+    fn delete_service(ref self: TContractState, service_id: felt252) -> bool;
     fn vote(ref self: TContractState, service_id: felt252, guest: ContractAddress, vote_variable: u8, direction: bool);
     fn write_log(ref self: TContractState, service_id: felt252, guest: ContractAddress);
+    fn get_open_services(self: @TContractState) -> Array<Service>;
+    fn get_all_services(self: @TContractState) -> Array<Service>;
+    fn get_services_by_host(self: @TContractState, host: ContractAddress) -> Array<Service>;
+    fn get_service_by_id(ref self: TContractState, service_id: felt252) -> Service;
 }

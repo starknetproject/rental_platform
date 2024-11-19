@@ -23,3 +23,8 @@ mod structs {
 mod constants {
     pub mod host_constants;
 }
+
+mod storage {
+    pub mod host_storage;
+}
+

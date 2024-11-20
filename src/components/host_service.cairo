@@ -1,7 +1,7 @@
 #[starknet::component]
 pub mod HostHandlerComponent {
 
-    use starknet::{ ContractAddress, get_caller_address, Felt252TryIntoContractAddress };
+    use starknet::{ ContractAddress, get_caller_address };
     use starknet::storage::{
         Map, StoragePathEntry, Vec, StoragePointerReadAccess, VecTrait, MutableVecTrait,
         StoragePointerWriteAccess
@@ -30,6 +30,7 @@ pub mod HostHandlerComponent {
         address_list: Map::<ContractAddress, bool>,
         service_log: Map::<felt252, Vec<ContractAddress>>,
         id_list: Map::<felt252, (bool, Service)>,
+        services: Vec::<felt252>,
         services_count: u64
     }
 
@@ -101,11 +102,21 @@ pub mod HostHandlerComponent {
         }
 
         fn write_log(ref self: ComponentState<TContractState>, service_id: felt252, guest: ContractAddress) {
-
+            self.service_log.entry(service_id).append().write(guest);
         }
 
-        fn get_open_services(self: @ComponentState<TContractState>) -> Array<Service> {
-            array![]
+        fn get_open_services(ref self: ComponentState<TContractState>, page: u8) -> Array<Service> {
+            let open_services: Array<Service> = array![];
+            // For 
+        //     hosts: Map::<ContractAddress, Vec<Service>>,
+        // address_list: Map::<ContractAddress, bool>,
+        // service_log: Map::<felt252, Vec<ContractAddress>>,
+        // id_list: Map::<felt252, (bool, Service)>,
+        // services: Vec::<felt252>,
+        // services_count: u64
+            
+            let mut size: u16 = if let self.services.len() > 20 { 20_u16 } else { self.services.len().try_into().unwrap() };
+            open_services
         }
 
         fn get_all_services(self: @ComponentState<TContractState>) -> Array<Service> {
@@ -155,6 +166,7 @@ pub mod HostHandlerComponent {
             self.address_list.entry(host).write(false);
 
             self.id_list.entry(service_id).write((true, service));      // The id now exists
+            self.services.append().write(service_id);
             self.emit(UploadedServiceEvent { id: service_id, host_address: host });
             
             (true, service_id)

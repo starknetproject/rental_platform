@@ -32,11 +32,13 @@ pub trait IHostHandler<TContractState> {
     fn is_eligible(ref self: TContractState, service_id: felt252) -> bool;                  // done
     fn is_open(ref self: TContractState, service_id: felt252) -> (bool, u64);               // done
     fn transfer_ownership(ref self: TContractState, new_host: ContractAddress, service_id: felt252);    // done
-    fn delete_service(ref self: TContractState, service_id: felt252) -> bool;
+    fn delete_service(ref self: TContractState, service_id: felt252) -> bool;               // done
     fn vote(ref self: TContractState, service_id: felt252, guest: ContractAddress, vote_variable: u8, direction: bool);
-    fn write_log(ref self: TContractState, service_id: felt252, guest: ContractAddress);
-    fn get_open_services(self: @TContractState) -> Array<Service>;
+    fn write_log(ref self: TContractState, service_id: felt252, guest: ContractAddress);    // done
+    fn get_open_services(ref self: TContractState, page: u8) -> Array<Service>;
     fn get_all_services(self: @TContractState) -> Array<Service>;
     fn get_services_by_host(self: @TContractState, host: ContractAddress) -> Array<Service>;
     fn get_service_by_id(ref self: TContractState, service_id: felt252) -> Service;
 }
+
+// Write above, for open services, input 0 as page_size for all

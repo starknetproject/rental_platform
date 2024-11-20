@@ -105,22 +105,13 @@ pub mod HostHandlerComponent {
             self.service_log.entry(service_id).append().write(guest);
         }
 
-        fn get_open_services(ref self: ComponentState<TContractState>, page: u8) -> Array<Service> {
-            let open_services: Array<Service> = array![];
-            // For 
-        //     hosts: Map::<ContractAddress, Vec<Service>>,
-        // address_list: Map::<ContractAddress, bool>,
-        // service_log: Map::<felt252, Vec<ContractAddress>>,
-        // id_list: Map::<felt252, (bool, Service)>,
-        // services: Vec::<felt252>,
-        // services_count: u64
+        fn get_open_services(self: @ComponentState<TContractState>, page: u8) -> Array<Service> {
+            self._get_services(page, true)
             
-            let mut size: u16 = if let self.services.len() > 20 { 20_u16 } else { self.services.len().try_into().unwrap() };
-            open_services
         }
 
-        fn get_all_services(self: @ComponentState<TContractState>) -> Array<Service> {
-            array![]
+        fn get_all_services(self: @ComponentState<TContractState>, page: u8) -> Array<Service> {
+            self._get_services(page, false)
         }
 
         fn get_services_by_host(self: @ComponentState<TContractState>, host: ContractAddress) -> Array<Service> {
@@ -227,6 +218,40 @@ pub mod HostHandlerComponent {
             service
         }
 
+        fn _get_services(self: @ComponentState<TContractState>, page: u8, open: bool) -> Array<Service> {
+            let mut services: Array<Service> = array![];
+
+            let mut size: u16 = if self.services.len() > 20 {
+                20_u16
+            } else { 
+               self.services.len().try_into().unwrap()
+            };
+
+            let mut start = (size * page.into());
+            let mut end = start + size;
+            let mut i: u64 = 0_u64;
+
+            while start < end && i < self.services.len() {
+                let service_id: felt252 = self.services.at(i).read();
+                let (exists, service) = self.id_list.entry(service_id).read();
+                if exists == true {
+                    if open == true {
+                        let (is_open, _) = service.data.is_open;
+                        if is_open == true {
+                            services.append(service);
+                            start += 1;
+                        }
+                    } else {
+                        services.append(service);
+                        start += 1;
+                    }
+                }
+                i += 1;
+            };
+
+            services
+        }
+
         fn _set_eligible(ref self: ComponentState<TContractState>, ref service: Service) {
             // here the id of the service is taken, might not be necessary though.
             // Check poll results
@@ -252,3 +277,4 @@ pub mod HostHandlerComponent {
             // For now, all uploaded services will be eligible :)
 /// 
 /// When a guest books a service, the service should be logged into the storage.
+/// mmmlll

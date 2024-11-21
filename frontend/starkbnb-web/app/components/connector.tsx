@@ -18,18 +18,22 @@ type WalletProps = {
 
 const Wallet = ({ name, alt, src, connector, handleToggleModal }: WalletProps) => {
 
-    const { connect } = useConnect()
+    const { connect, status, connectAsync } = useConnect()
     const isSvg = src.substring(0, 4) === "<svg"
 
-    const connectWallet = (): void => {
-        connect({ connector });
+    const connectWallet = async(): Promise<void> => {
+        console.log(status)
+        await connectAsync({ connector })
+        console.log(status)
         handleToggleModal()
     }
 
     return ( 
         <button
             className="hover:bg-outline-grey flex cursor-pointer items-center gap-4 p-[.2rem] text-start transition-all hover:rounded-[10px]"
-            onClick={(e) => connectWallet()}
+            onClick={(e) => {
+                connectWallet()
+            }}
         >
             <div className="h-[2.2rem] w-[2.2rem] rounded-[5px]">
                 {isSvg ? (
@@ -76,9 +80,6 @@ const ConnectModal = ({isOpen, handleToggleModal}: ConnectModalProps) => {
     if (!isOpen) return null;
 
     const { connect, connectors } = useConnect()
-    connectors.forEach((connector) => {
-        console.log(connector.icon)
-    })
 
     const getIconSrc = (icon: string | { dark: string, light: string }) => {
         if (!icon) return connectors[0].icon

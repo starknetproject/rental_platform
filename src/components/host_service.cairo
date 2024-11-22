@@ -7,7 +7,7 @@ pub mod HostHandlerComponent {
         StoragePointerWriteAccess
     };
     use rental_platform::structs::host::{ 
-        Service, ServiceData, BookedServiceEvent, UploadedServiceEvent, ServiceResolve, OwnershipTransferredEvent
+        Service, BookedServiceEvent, UploadedServiceEvent, ServiceResolve, OwnershipTransferredEvent
     };
     use rental_platform::interfaces::host::IHostHandler;
     use rental_platform::constants::host_constants::{ EMPTY_SERVICE_DATA, SALT };
@@ -26,12 +26,12 @@ pub mod HostHandlerComponent {
     // That particular key exists (id_exists, Service)
     #[storage]
     pub struct Storage {
-        hosts: Map::<ContractAddress, Vec<Service>>,
-        address_list: Map::<ContractAddress, bool>,
-        service_log: Map::<felt252, Vec<ContractAddress>>,
-        id_list: Map::<felt252, (bool, Service)>,
-        services: Vec::<felt252>,
-        services_count: u64
+        pub hosts: Map::<ContractAddress, Vec<Service>>,
+        pub address_list: Map::<ContractAddress, bool>,
+        pub service_log: Map::<felt252, Vec<ContractAddress>>,
+        pub id_list: Map::<felt252, (bool, Service)>,
+        pub services: Vec::<felt252>,
+        pub services_count: u64
     }
 
     // TODO: Emit an event each time a house is booked...
@@ -45,7 +45,7 @@ pub mod HostHandlerComponent {
         UploadedServiceEvent: UploadedServiceEvent
     }
 
-    #[embeddable_as(HostServiceImpl)]
+    #[embeddable_as(HostHandlerImpl)]
     impl HostHandler<TContractState, +HasComponent<TContractState>> of IHostHandler<ComponentState<TContractState>> {
         fn upload_service(ref self: ComponentState<TContractState>, mut host: ContractAddress, mut name: felt252) -> (bool, felt252) {
             let is_blacklisted: bool = self.address_list.entry(host).read();
@@ -116,25 +116,35 @@ pub mod HostHandlerComponent {
 
         fn get_services_by_host(self: @ComponentState<TContractState>, host: ContractAddress) -> Array<Service> {
             let mut services: Array<Service> = array![];
-            // Because of the transfer_of_ownership implementation, crosscheck the service.owner variable if
-            // if corresponds with the contract address provided.
-        //     hosts: Map::<ContractAddress, Vec<Service>>,
-        // address_list: Map::<ContractAddress, bool>,
-        // service_log: Map::<felt252, Vec<ContractAddress>>,
-        // id_list: Map::<felt252, (bool, Service)>,
-        // services_count: u64
+            let hosts = self.hosts.entry(host);
+            for i in 0..hosts.len() {
+                let service: Service = hosts.at(i).read();
+                if service.owner == host {
+                    services.append(service);
+                }
+            };
+
             services
         }
 
-        fn get_service_by_id(ref self: ComponentState<TContractState>, service_id: felt252) -> Service {
-            self._check_id(service_id)
+        fn get_service_by_ids(ref self: ComponentState<TContractState>, service_ids: Array<felt252>) -> Array<Service> {
+            let mut services: Array<Service> = array![];
+            
+            for service_id in service_ids {
+                let (exists, service) = self.id_list.entry(service_id).read();
+                if exists {
+                    services.append(service);
+                }
+            };
+
+            services
         }
     }
 
     // When testing, test this trait.
     #[generate_trait]
     pub impl HostInternalImpl<TContractState, +HasComponent<TContractState>> of HostInternalTrait<TContractState> {
-        fn initialize(ref self: ComponentState<TContractState>) {
+        fn _initialize(ref self: ComponentState<TContractState>) {
             self.services_count.write(0);
             // TODO: This function must be called from the starkbnb sc
         }
@@ -214,7 +224,7 @@ pub mod HostHandlerComponent {
 
         fn _check_id(ref self: ComponentState<TContractState>, service_id: felt252) -> Service {
             let (id_exists, service) = self.id_list.entry(service_id).read();
-            assert!(id_exists == true, "Error: The provided id does not exist!");
+            assert!(id_exists, "Error: The provided id does not exist!");
             service
         }
 
@@ -234,8 +244,8 @@ pub mod HostHandlerComponent {
             while start < end && i < self.services.len() {
                 let service_id: felt252 = self.services.at(i).read();
                 let (exists, service) = self.id_list.entry(service_id).read();
-                if exists == true {
-                    if open == true {
+                if exists {
+                    if open {
                         let (is_open, _) = service.data.is_open;
                         if is_open == true {
                             services.append(service);

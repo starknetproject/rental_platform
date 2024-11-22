@@ -1,4 +1,4 @@
-use rental_platform::structs::host::{ Service, ServiceData };
+use rental_platform::structs::host::{Service, ServiceData};
 use starknet::ContractAddress;
 
 // An Enpty Service Struct, if necessary.

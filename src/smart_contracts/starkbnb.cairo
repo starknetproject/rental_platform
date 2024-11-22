@@ -5,21 +5,33 @@ mod starkbnb_contract {
         Map, StoragePathEntry, Vec, StoragePointerReadAccess, VecTrait, MutableVecTrait,
         StoragePointerWriteAccess
     };
-    use rental_platform::interfaces::{guest::IGuestHandler, host::IHostHandler};
-    use rental_platform::components::contract_service;
-    use rental_platform::structs::host::{Service, BookedServiceEvent};
+    use rental_platform::structs::host::{ Service, BookedServiceEvent };
+    use rental_platform::components::host_service::HostHandlerComponent;
+
+    // --------------------------------------------- Components ------------------------------------------------------
+    
+    component!(path: HostHandlerComponent, storage: host, event: HostEvent);
+
+    #[abi(embed_v0)]
+    impl HostHandlerImpl = HostHandlerComponent::HostHandlerImpl<ContractState>;
+    impl HostHandlerInternalImpl = HostHandlerComponent::HostInternalImpl<ContractState>;
+
+    // ---------------------------------------------------------------------------------------------------------------
 
     #[storage]
     struct Storage {
         broker: ContractAddress,
         holders: Vec::<ContractAddress>,
+        #[substorage(v0)]
+        host: HostHandlerComponent::Storage
     }
 
     // TODO: Make sure a 'booked service' event is available.
     // Guest's side, take note.
     #[event]
     #[derive(Drop, starknet::Event)]
-    enum Event { // BookedService: BookedService
+    enum Event {
+        HostEvent: HostHandlerComponent::Event
     }
 
     /// Might be edited in the future. The broker is address automated for the sending and
@@ -36,6 +48,6 @@ mod starkbnb_contract {
         for holder in holders {
             self.holders.append().write(holder);
         };
-        // initialize the service count here from the private method of the host component
+        self.host._initialize();
     }
 }

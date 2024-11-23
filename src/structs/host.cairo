@@ -9,6 +9,8 @@ use starknet::ContractAddress;
 ///     3. data -- the service data of struct ServiceData
 
 ///     STORAGE     STORAGE     STORAGE     STORAGE     STORAGE     STORAGE     STORAGE     STORAGE
+///     Each owner must have the id to their property for greater security. For  transfer of
+///     ownership Tell caller to input the id.
 #[derive(Drop, Copy, Serde, starknet::Store)]
 pub struct Service {
     pub owner: ContractAddress,
@@ -18,7 +20,8 @@ pub struct Service {
 
 ///     1. name -- The name associated with this service
 ///     2. wishlist_count -- The number of addresses that added this to their wishlist. Ranks it by
-///        popular together with the booking rate of a certain value to be completed by a function in
+///        popular together with the booking rate of a certain value to be completed by a function
+///        in
 ///     3. booking_rate -- would be calculated in the future, initially set to zero
 ///        has staked an amount, and closed when the service has been booked, and the cycle repeats
 ///        itself.
@@ -26,10 +29,12 @@ pub struct Service {
 ///     5. stake -- stake amount sent by the owner to the broker. TODO: These two values shall be
 ///        compared in the future.
 ///     6. votes -- The number of votes this service has
-///     7. is_open -- And tuple of whether or not is occupied/open, and the no. of days booked if closed.
-/// 
-///     8. is_eligible -- defaults to true on upload. To be assigned based on a criteria in the future.
-/// 
+///     7. is_open -- And tuple of whether or not is occupied/open, and the no. of days booked if
+///     closed.
+///
+///     8. is_eligible -- defaults to true on upload. To be assigned based on a criteria in the
+///     future.
+///
 
 #[derive(Drop, Copy, Serde, starknet::Store)]
 pub struct ServiceData {
@@ -49,19 +54,21 @@ pub struct ServiceResolve {
     pub salt: felt252
 }
 
-/// Crosscheck if a struct for storage, that stores all house listings 
+/// Crosscheck if a struct for storage, that stores all house listings
 
 /// An Event struct to be emitted each time a service is booked or uploaded.
 /// Consider moving this event to the Guest's side.
-/// 
-/// 
-/// 
-/// 
+///
+///
+///
+///
 /// EVENT       EVENT       EVENT       EVENT       EVENT       EVENT       EVENT       EVENT
 #[derive(Drop, starknet::Event)]
 pub struct BookedServiceEvent {
     pub host_address: ContractAddress,
-    pub guest_address: ContractAddress
+    pub guest_address: ContractAddress,
+    pub service_id: felt252,
+    pub timestamp: u64
 }
 
 #[derive(Drop, starknet::Event)]
@@ -69,8 +76,12 @@ pub struct UploadedServiceEvent {
     pub id: felt252,
     pub host_address: ContractAddress
 }
-// occupied
-// opn?
-// occupied?
-// cost
-// stake
+
+#[derive(Drop, starknet::Event)]
+pub struct OwnershipTransferredEvent {
+    pub service_id: felt252,
+    pub old_host: ContractAddress,
+    pub new_host: ContractAddress,
+    pub timestamp: u64
+}
+

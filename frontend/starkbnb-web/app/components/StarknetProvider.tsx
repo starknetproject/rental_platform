@@ -38,6 +38,7 @@ export function StarknetProvider({
         <StarknetConfig
             chains={[mainnet, sepolia]}
             provider={publicProvider()}
+            // @ts-ignore
             connectors={connectors}
             explorer={voyager}
         >

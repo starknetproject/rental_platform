@@ -12,6 +12,9 @@ export default {
         background: "var(--background)",
         foreground: "var(--foreground)",
       },
+      backgroundImage: {
+        'main-page': 'url(/Main-cleanup.png)'
+      }
     },
   },
   plugins: [],

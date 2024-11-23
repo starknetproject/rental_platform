@@ -6,7 +6,7 @@ import MainHouse from '../public/Main.png'
 export default function Home() {
   return (
     <div className='w-[100%] mx-auto'>
-      <Navbar />
+      {/* <Navbar /> */}
 
       <div 
         className='px-[14%] py-5 mt-[5.1rem] mx-auto mb-6 flex flex-col gap-3 h-[25rem] bg-main-page bg-cover'

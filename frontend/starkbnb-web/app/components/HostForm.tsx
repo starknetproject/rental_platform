@@ -6,7 +6,12 @@ import { FaCirclePlus } from "react-icons/fa6";
 const HostForm = () => {
     return ( 
         <form action="">
-            
+            <div>
+                <label htmlFor=""></label>
+                <span>
+                    <input type="text" />
+                </span>
+            </div>
         </form>
      );
 }
@@ -42,7 +47,7 @@ const HostButton = () => {
                 dark 
                 icon={FaCirclePlus} 
                 iconsize={2}
-                clickHandler={handleToggleModal}
+                // clickHandler={handleToggleModal}
             />
             <HostModal isOpen={isOpen} handleToggleModal={handleToggleModal}/>
         </div>

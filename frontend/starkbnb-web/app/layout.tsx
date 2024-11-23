@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-import { StarknetProvider } from '@/components/starknet-provider'
+import { StarknetProvider } from '@/app/components/StarknetProvider'
+import Navbar from "./components/Navbar";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -30,6 +31,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <StarknetProvider>
+          <Navbar />
           {children}
         </StarknetProvider>
       </body>

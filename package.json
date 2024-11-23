@@ -1,0 +1,11 @@
+{
+    "name": "starkbnb",
+    "private": true,
+    "workspaces": [
+      "frontend/starkbnb-web"
+    ],
+    "scripts": {
+      "build": "cd Frontend/starkbnb-web && npm run build",
+      "start": "cd Frontend/starkbnb-web && npm start"
+    }
+  }

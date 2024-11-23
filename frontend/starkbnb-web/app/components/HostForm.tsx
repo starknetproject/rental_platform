@@ -3,19 +3,6 @@ import Button from "./ui/Button";
 import { Modal } from "./ui/Modal";
 import { FaCirclePlus } from "react-icons/fa6";
 
-const HostForm = () => {
-    return ( 
-        <form action="">
-            <div>
-                <label htmlFor=""></label>
-                <span>
-                    <input type="text" />
-                </span>
-            </div>
-        </form>
-     );
-}
-
 type HostModalProps = {
     isOpen: boolean,
     handleToggleModal: () => void
@@ -36,7 +23,7 @@ const HostModal = ({isOpen, handleToggleModal}: HostModalProps) => {
 const HostButton = () => {
     const [isOpen, setIsOpen] = useState(false)
     const handleToggleModal = () => {
-        isOpen? setIsOpen(false) : setIsOpen(true)
+        setIsOpen(!isOpen)
     }
 
     return (
@@ -47,7 +34,6 @@ const HostButton = () => {
                 dark 
                 icon={FaCirclePlus} 
                 iconsize={2}
-                // clickHandler={handleToggleModal}
             />
             <HostModal isOpen={isOpen} handleToggleModal={handleToggleModal}/>
         </div>

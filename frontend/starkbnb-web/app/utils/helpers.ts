@@ -1,5 +1,4 @@
 import { createHash } from 'crypto'
-import { hash } from 'starknet'
 
 export const trimString = (longString: string, length: number) => {
     return longString.length > length ?

@@ -8,10 +8,10 @@ import {
     braavos,
     useInjectedConnectors,
     voyager,
-    injected
+    // injected
 } from '@starknet-react/core'
 import { InjectedConnector } from "starknetkit/injected";
-import { ArgentMobileConnector } from "starknetkit/argentMobile";
+// import { ArgentMobileConnector } from "starknetkit/argentMobile";
 import { WebWalletConnector } from "starknetkit/webwallet";
 import { kakarotConnectors } from "@starknet-react/kakarot";
 import { OKXSVG } from '../../public/okx-svg'
@@ -38,7 +38,7 @@ export function StarknetProvider({
         <StarknetConfig
             chains={[mainnet, sepolia]}
             provider={publicProvider()}
-            // @ts-ignore
+            // @ts-expect-error connectors array has been combined with injectedConnector and WebWalletConnector, and its type has been compromised
             connectors={connectors}
             explorer={voyager}
         >

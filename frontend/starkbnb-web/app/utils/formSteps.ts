@@ -1,6 +1,3 @@
-import { title } from "process";
-import { text } from "stream/consumers";
-
 export type Field = {
     title: string, required: boolean, inputType: string, options?: string[]
 }

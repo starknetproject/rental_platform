@@ -5,7 +5,8 @@
       "frontend/starkbnb-web"
     ],
     "scripts": {
-      "build": "cd Frontend/starkbnb-web && npm run build",
-      "start": "cd Frontend/starkbnb-web && npm start"
+      "build": "cd frontend/starkbnb-web && npm run build",
+      "start": "cd frontend/starkbnb-web && npm start",
+      "install": "npm install --legacy-peer-deps"
     }
   }

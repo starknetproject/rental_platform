@@ -209,18 +209,43 @@ const MultiStepForm = () => {
     const { stepData, stepKey } = currentStepInfo
 
     return (
-        <div>
-            <Button 
-                text="Become a Host" 
-                type="button" 
-                dark 
-                icon={FaCirclePlus} 
-                iconsize={2}
-                // clickHandler={handleToggleModal}
-            />
-            <HostModal isOpen={isOpen} handleToggleModal={handleToggleModal}/>
-        </div>
-    )
-}
+            <form 
+                onSubmit={handleSubmit(onSubmit)} 
+                className="w-full max-w-2xl mx-auto space-y-6"
+                >
+                <StepComponent
+                    stepData={stepData}
+                    stepKey={stepKey}
+                    register={register}
+                    setValue={setValue}
+                    errors={errors}
+                />
+                
+                <div className="flex justify-between pt-6">
+                    <button
+                    type="button"
+                    onClick={handleBack}
+                    disabled={currentStep === 1}
+                    className={`px-4 py-2 rounded-md text-sm font-medium 
+                        ${currentStep === 1 
+                        ? 'bg-gray-100 text-gray-400 cursor-not-allowed' 
+                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                        }`}
+                    >
+                    Back
+                    </button>
+                    
+                    <button
+                    type={currentStep === Object.keys(stepsConfig).length ? 'submit' : 'button'}
+                    onClick={currentStep === Object.keys(stepsConfig).length ? undefined : handleNext}
+                    // disabled={isSubmitting}
+                    className={`px-4 py-2 rounded-md text-sm font-medium text-white bg-blue-600`}
+                    >
+                    {currentStep === Object.keys(stepsConfig).length ? 'Submit' : 'Next'}
+                    </button>
+                </div>
+            </form>
+  );
+};
 
 export default MultiStepForm;

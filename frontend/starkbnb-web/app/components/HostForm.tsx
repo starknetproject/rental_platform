@@ -209,31 +209,17 @@ const MultiStepForm = () => {
     const { stepData, stepKey } = currentStepInfo
 
     return (
-        <form action="" onSubmit={handleSubmit(onSubmit)}>
-            <StepComponent 
-                stepData={stepData}
-                stepKey={stepKey}
-                register={register}
-                setValue={setValue}
-                errors={errors}
+        <div>
+            <Button 
+                text="Become a Host" 
+                type="button" 
+                dark 
+                icon={FaCirclePlus} 
+                iconsize={2}
+                // clickHandler={handleToggleModal}
             />
-            <div>
-                <button type="button" onClick={handleBack} disabled={currentStep === 1}>
-                    Back
-                </button>
-                {
-                    currentStep !== Object.keys(stepsConfig)?.length ? (
-                        <button type="button" onClick={handleNext}>
-                            Next
-                        </button>
-                    ) : (
-                        <button type="submit">
-                            Submit
-                        </button>
-                    )
-                }
-            </div>
-        </form>
+            <HostModal isOpen={isOpen} handleToggleModal={handleToggleModal}/>
+        </div>
     )
 }
 

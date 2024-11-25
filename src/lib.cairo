@@ -1,6 +1,7 @@
 pub mod interfaces {
     pub mod guest;
     pub mod host;
+    pub mod poller;
 }
 
 pub mod components {
@@ -22,6 +23,7 @@ pub mod structs {
 
 pub mod constants {
     pub mod host_constants;
+    pub mod poll_constants;
 }
 
 pub mod storage {

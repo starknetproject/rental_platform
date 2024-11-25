@@ -1,6 +1,5 @@
 use starknet::ContractAddress;
-use rental_platform::structs::poller::PollOutcome;
-
+use rental_platform::structs::poller::{ Poll, PollType };
 /// The interfaces used on the poller smart contract
 /// get votes and compare, if eligible, interact with the starkbnb smart contract
 ///
@@ -18,10 +17,20 @@ use rental_platform::structs::poller::PollOutcome;
 /// feel free to share the link.
 #[starknet::interface]
 pub trait IPollHandler<TContractState> {
-    fn initialize_poll(ref self: TContractState) -> felt252; // OR NOT
-    fn vote(ref self: TContractState) -> Poll;
-    fn set_open(ref self: TContractState);
+    fn initialize_default_poll(ref self: TContractState, name: felt252) -> Poll; // OR NOT
+    fn initialize_poll(
+        ref self: TContractState, name: felt252, poll_type: PollType, base_set_voters: u64, max_set_voters: u64
+    ) -> Poll;  
+    fn vote(ref self: TContractState, poll_id: felt252);
+    fn set_open(ref self: TContractState, poll_id: felt252);
+    fn get_open_polls(self: @TContractState) -> Array<Poll>;
+    fn get_poll_by_owner(self: @TContractState, owner: ContractAddress) -> Array<Poll>;
+    fn get_all_polls(self: @TContractState) -> Array<Poll>;
 }
 //        CHECK THESE FUNCTIONS. TO BE CONTINUED.
+
+
+/// This poll uses a sigmoid and 20 voters base as default. In the future, you may create a poll with the type of steepness
+/// Might be useful in the future, for now we use the base.
 
 

@@ -124,18 +124,25 @@ name = "rental_platform"
 version = "0.1.0"
 dependencies = [
  "openzeppelin",
+ "sncast_std",
  "snforge_std",
 ]
 
 [[package]]
+name = "sncast_std"
+version = "0.33.0"
+source = "registry+https://scarbs.xyz/"
+checksum = "sha256:419958f6f2e8d738e1c15321228d39ac2bb6700995b51632be872555bdc48eb5"
+
+[[package]]
 name = "snforge_scarb_plugin"
-version = "0.1.0"
-source = "git+https://github.com/foundry-rs/starknet-foundry?tag=v0.30.0#196f06b251926697c3d66800f2a93ae595e76496"
+version = "0.33.0"
+source = "git+https://github.com/foundry-rs/starknet-foundry?tag=v0.33.0#221b1dbff42d650e9855afd4283508da8f8cacba"
 
 [[package]]
 name = "snforge_std"
-version = "0.30.0"
-source = "git+https://github.com/foundry-rs/starknet-foundry?tag=v0.30.0#196f06b251926697c3d66800f2a93ae595e76496"
+version = "0.33.0"
+source = "git+https://github.com/foundry-rs/starknet-foundry?tag=v0.33.0#221b1dbff42d650e9855afd4283508da8f8cacba"
 dependencies = [
  "snforge_scarb_plugin",
 ]

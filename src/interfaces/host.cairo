@@ -32,27 +32,26 @@ use rental_platform::structs::host::Service;
 ///     This way voting up and down, rating and reviews of a services can only be done by guests who
 ///     have used them.
 ///
-/// 9.  get_open_services --
+/// 9.  get_open_services -- Takes in a page number starting with page 0. Returns an array in batches of 20
 ///
-/// 10. get_all_services --
+/// 10. get_all_services --  Takes in a page number too and returns in the same batch
 ///
-/// 11. get_services_by_host --
+/// 11. get_services_by_host --  Takes in the hosts contract address, and returns an array of services
+/// associated to that host.
 ///
 /// 12. get_service_by_ids -- Takes in an array of ids, and returns an array of Services that have
 /// the required ids
 #[starknet::interface]
 pub trait IHostHandler<TContractState> {
     fn upload_service(
-        ref self: TContractState, host: ContractAddress, name: felt252
-    ) -> (bool, felt252); 
+        ref self: TContractState, name: felt252
+    ) -> (bool, felt252);
 
-    fn update_service(ref self: TContractState, service_id: felt252, cost: u128);
-    fn is_eligible(ref self: TContractState, service_id: felt252) -> bool; 
+    fn update_service(ref self: TContractState, service_id: felt252, cost: u256);
+    fn is_eligible(ref self: TContractState, service_id: felt252) -> bool;
     fn is_open(ref self: TContractState, service_id: felt252) -> (bool, u64);
 
-    fn transfer_ownership(
-        ref self: TContractState, new_host: ContractAddress, service_id: felt252
-    );
+    fn transfer_ownership(ref self: TContractState, new_host: ContractAddress, service_id: felt252);
 
     fn delete_service(ref self: TContractState, service_id: felt252) -> bool;
 

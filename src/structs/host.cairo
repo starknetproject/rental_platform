@@ -41,7 +41,7 @@ pub struct ServiceData {
     pub name: felt252,
     pub wishlist_count: u64,
     pub booking_rate: u8,
-    pub cost: u128,
+    pub cost: u256,
     pub stake: u128,
     pub votes: i128,
     pub is_open: (bool, u64),

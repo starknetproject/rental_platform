@@ -4,6 +4,7 @@ import Button from './ui/Button'
 import { FaWallet } from "react-icons/fa";
 import { FaCirclePlus } from "react-icons/fa6";
 
+
 const Navbar = () => {
   
   return (
@@ -15,6 +16,9 @@ const Navbar = () => {
           <Button text='Connect Wallet' dark={true} type='submit' icon={FaWallet} iconsize={1}/>
         </div>
     </div>
+        
+        
+  
   )
 }
 

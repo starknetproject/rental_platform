@@ -1,5 +1,6 @@
 import Button from '@/components/ui/Button';
 import Navbar from '../components/Navbar'
+import Properties from '@/components/ui/Properties';
 
 export default function Home() {
   return (
@@ -19,6 +20,7 @@ export default function Home() {
           <Button text='Search' dark type='button'/>
         </div>
       </div>
+      <Properties/>
     </div>
   );
 }

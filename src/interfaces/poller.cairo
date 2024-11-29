@@ -21,8 +21,7 @@ pub trait IPollHandler<TContractState> {
     fn initialize_poll(
         ref self: TContractState, name: felt252, poll_type: PollType, base_set_voters: u64, max_set_voters: u64
     ) -> Poll;  
-    fn vote(ref self: TContractState, poll_id: felt252);
-    fn set_open(ref self: TContractState, poll_id: felt252);
+    fn vote(ref self: TContractState, poll_id: felt252, direction: u8);
     fn get_open_polls(self: @TContractState) -> Array<Poll>;
     fn get_poll_by_owner(self: @TContractState, owner: ContractAddress) -> Array<Poll>;
     fn get_all_polls(self: @TContractState) -> Array<Poll>;

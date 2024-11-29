@@ -252,8 +252,7 @@ pub mod HostHandlerComponent {
             self._save(service.id, ref service, old_host);
             self.id_list.entry(service.id).write((true, service));
 
-            self
-                .emit(
+            self.emit(
                     OwnershipTransferredEvent {
                         service_id: service.id,
                         old_host,

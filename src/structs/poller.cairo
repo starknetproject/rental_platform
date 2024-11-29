@@ -3,24 +3,37 @@ use starknet::ContractAddress;
 // TODO: In the component of this poller, The storage should store a mapped value of an address to a
 // Poll To initialize another poll, there should be an algorithm that checks the number of entries
 // and address has to return the new amount of voters
-#[derive(Drop, Copy, Serde, starknet::Store)]
+
+// TODO: check the `votes` variable to ensure it stays within `set_votes``
+#[derive(Drop, Copy, Serde, PartialEq, starknet::Store)]
 pub struct Poll {
     pub id: felt252,
     pub owner: ContractAddress,
     pub set_votes: u64,
+    pub votes: (u64, u64),
     pub is_open: bool
 }
 
-#[derive(Drop, Copy, Serde, starknet::Store)]
+#[derive(Drop, starknet::Event)]
+pub struct PollStartedEvent {
+    #[key]
+    poll_id: felt252,
+    owner: ContractAddress
+}
+
+#[derive(Drop, starknet::Event)]
 pub struct VotedEvent {
     #[key]
     poll_id: felt252,
     voter: ContractAddress
 }
-///        CREATE THIS STORAGE
-///
-/// ..    add a voters: Map<felt252, Vec::<ContractAddress>>, maps a poll id to the list of voters
-/// 
+
+#[derive(Drop, starknet::Event)]
+pub struct PollConcludedEvent  {
+    #[key]
+    poll_id: felt252,
+    voters: (u64, u64)
+}
 
 #[derive(Drop, Hash)]
 pub struct PollResolve {
@@ -80,4 +93,21 @@ pub enum PollType {
 //     else:
 //         # Default to linear if no valid curve is selected
 //         min_votes = BASE_MIN_VOTES + polls_initialized * STEEPNESS_FACTOR
+
+// # Example usage
+// function initialize_poll(user):
+//     polls_initialized = get_polls_initialized_by_user(user) # Retrieve user's poll count
+//     min_votes = calculate_min_votes(polls_initialized)
+    
+//     # Create a poll with the calculated minimum votes
+//     poll = create_poll(user, min_votes)
+//     increment_user_poll_count(user) # Update poll count for the user
+
+// pub struct Poll {
+//     pub id: felt252,
+//     pub owner: ContractAddress,
+//     pub set_votes: u64,
+//     pub is_open: bool
+// }
+//     return poll
 

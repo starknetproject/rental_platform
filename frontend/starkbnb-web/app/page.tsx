@@ -1,6 +1,6 @@
-import Button from '@/components/ui/Button';
-import Navbar from '../components/Navbar'
-import Properties from '@/components/ui/Properties';
+import Button from '@/app/components/ui/Button';
+import Navbar from './components/Navbar'
+import Properties from '@/app/components/ui/Properties';
 
 export default function Home() {
   return (

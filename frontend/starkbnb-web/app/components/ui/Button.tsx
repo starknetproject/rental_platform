@@ -30,12 +30,11 @@ const Button = ({ text, dark, active, disabled, full, mobileFull, clickHandler, 
         onClick={clickHandler}
         disabled={disabled}
     >
-        <p
             className="px-2 sm:px-6 py-2 sm:py-3 text-center text-balance whitespace-nowrap font-bold flex items-center justify-center gap-3"
         >
             {Icon && <Icon className={`${iconsize == 2? 'text-xl': ''}`}/>}
             <p>{text}</p>
-        </p>
+
     </button>
   )
 }

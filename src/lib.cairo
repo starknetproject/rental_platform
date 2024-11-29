@@ -3,7 +3,7 @@ mod interfaces {
     pub mod host;
 }
 
-mod service {
+mod components {
     pub mod guest_service;
     pub mod host_service;
     pub mod contract_service;
@@ -19,3 +19,12 @@ mod structs {
     pub mod host;
     pub mod poller;
 }
+
+mod constants {
+    pub mod host_constants;
+}
+
+mod storage {
+    pub mod host_storage;
+}
+

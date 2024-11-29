@@ -1,0 +1,12 @@
+{
+    "name": "starkbnb",
+    "private": true,
+    "workspaces": [
+      "frontend/starkbnb-web"
+    ],
+    "scripts": {
+      "build": "cd frontend/starkbnb-web && npm run build",
+      "start": "cd frontend/starkbnb-web && npm start",
+      "install": "npm install --legacy-peer-deps"
+    }
+  }

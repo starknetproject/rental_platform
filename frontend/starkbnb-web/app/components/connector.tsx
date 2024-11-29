@@ -16,9 +16,9 @@ type WalletProps = {
     name: string, alt: string, src: string, connector: Connector, handleToggleModal: () => void
 }
 
-const Wallet = ({ name, alt, src, connector, handleToggleModal }: WalletProps) => {
+const Wallet = ({ alt, src, connector, handleToggleModal }: WalletProps) => {
 
-    const { connect, status, connectAsync } = useConnect()
+    const { status, connectAsync } = useConnect()
     const isSvg = src.substring(0, 4) === "<svg"
 
     const connectWallet = async(): Promise<void> => {
@@ -31,7 +31,7 @@ const Wallet = ({ name, alt, src, connector, handleToggleModal }: WalletProps) =
     return ( 
         <button
             className="hover:bg-outline-grey flex cursor-pointer items-center gap-4 p-[.2rem] text-start transition-all hover:rounded-[10px]"
-            onClick={(e) => {
+            onClick={() => {
                 connectWallet()
             }}
         >
@@ -77,9 +77,10 @@ type ConnectModalProps = {
 }
 
 const ConnectModal = ({isOpen, handleToggleModal}: ConnectModalProps) => {
+    
+    const { connectors } = useConnect()
+    
     if (!isOpen) return null;
-
-    const { connect, connectors } = useConnect()
 
     const getIconSrc = (icon: string | { dark: string, light: string }) => {
         if (!icon) return connectors[0].icon
@@ -94,7 +95,6 @@ const ConnectModal = ({isOpen, handleToggleModal}: ConnectModalProps) => {
             <div className="flex flex-col gap-4" key={''}>
                 {
                     connectors.map((connector, index) => {
-                        const icon = connector.icon
                         return (
                             // <button
                             //     className="bg-blue-700 text-white px-3 py-4 rounded-lg font-bold"
@@ -127,7 +127,7 @@ const ConnectorButton = () => {
     const { address } = useAccount()
     const [isOpen, setIsOpen] = useState(false)
     const handleToggleModal = () => {
-        isOpen ? setIsOpen(false) : setIsOpen(true)
+        setIsOpen(!isOpen)
     }
     
     return (

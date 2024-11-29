@@ -2,12 +2,8 @@
 
 import React from 'react'
 import Logo from './ui/Logo'
-import Button from './ui/Button'
-import { FaWallet } from "react-icons/fa";
-import { FaCirclePlus } from "react-icons/fa6";
-import { useConnect } from '@starknet-react/core';
 import ConnectorButton from './connector';
-import HostButton from './HostForm';
+import HostButton from './HostButton';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
@@ -50,17 +46,16 @@ return (
 }
 
 const Navbar = () => {
-
-  const { connect, connectors } = useConnect()
   
   return (
-    <div className='top-0 left-0 w-full flex m-auto gap-16 items-center justify-between py-4 px-28 bg-white border border-b border-black fixed'>
+    <div className='top-0 left-0 w-full flex justify-between items-center m-auto gap-16 py-4 px-28 bg-white border border-b border-black fixed'>
         <Logo />
 
-        <MidElement />
-
-        <div>
-          <ConnectorButton />
+        <div className='flex justify-end items-center gap-12'>
+          <MidElement />
+          <div>
+            <ConnectorButton />
+          </div>
         </div>
     </div>
   )

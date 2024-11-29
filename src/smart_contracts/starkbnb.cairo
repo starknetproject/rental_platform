@@ -1,15 +1,15 @@
 #[starknet::contract]
-mod starkbnb_contract {
+pub mod Starkbnb {
     use starknet::ContractAddress;
     use starknet::storage::{
         Map, StoragePathEntry, Vec, StoragePointerReadAccess, VecTrait, MutableVecTrait,
         StoragePointerWriteAccess
     };
-    use rental_platform::structs::host::{ Service, BookedServiceEvent };
+    use rental_platform::structs::host::{Service, BookedServiceEvent};
     use rental_platform::components::host_service::HostHandlerComponent;
 
     // --------------------------------------------- Components ------------------------------------------------------
-    
+
     component!(path: HostHandlerComponent, storage: host, event: HostEvent);
 
     #[abi(embed_v0)]

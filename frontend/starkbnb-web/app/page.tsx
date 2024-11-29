@@ -1,7 +1,4 @@
 import Button from '@/app/components/ui/Button';
-import Navbar from './components/Navbar'
-import { url } from 'inspector';
-import MainHouse from '../public/Main.png'
 
 export default function Home() {
   return (

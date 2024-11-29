@@ -142,7 +142,6 @@ pub mod Poll {
             //  Get the owner of the poll
             // Set it in self.caller, and increment the u16 value
             // After, emit a PollStartedEvent
-            // we are testing the mic
         }
     }
 }

@@ -1,5 +1,6 @@
 import Button from '@/app/components/ui/Button';
 
+
 export default function Home() {
   return (
     <div className='w-[100%] mx-auto'>
@@ -22,6 +23,7 @@ export default function Home() {
       </div>
         </div>
       </div>
+      <Properties/>
     </div>
   );
 }

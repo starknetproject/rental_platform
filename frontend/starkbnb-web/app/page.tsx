@@ -1,5 +1,5 @@
 import Button from '@/app/components/ui/Button';
-import Navbar from './components/Navbar'
+
 
 export default function Home() {
   return (

@@ -1,5 +1,6 @@
 import Button from '@/components/ui/Button';
 import { HeroSection } from '../components/HeroSection';
+import Properties from '@/components/hostform/ui/Properties';
 
 
 export default function Home() {

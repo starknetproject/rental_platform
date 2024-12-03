@@ -1,4 +1,6 @@
-import MultiStepForm from "@/app/components/HostForm";
+// import MultiStepForm from "@/app/components/hostform/HostForm";
+
+import HostForm from "@/components/hostform/HostForm";
 
 const WelcomeText = () => (
     <div>
@@ -23,7 +25,7 @@ const HostProperty = () => {
     return ( 
         <div className="mt-24 mx-auto w-4/5">
             <WelcomeText />
-            <MultiStepForm />
+            <HostForm />
         </div>
      );
 }

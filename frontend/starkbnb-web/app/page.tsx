@@ -1,4 +1,5 @@
-import Button from '@/app/components/ui/Button';
+import Button from '@/components/ui/Button';
+import { HeroSection } from '../components/HeroSection';
 
 
 export default function Home() {
@@ -6,8 +7,8 @@ export default function Home() {
     <div className='w-[100%] mx-auto'>
       {/* <Navbar /> */}
 
-      <div 
-        className='px-[14%] py-5 mt-[5.1rem] mx-auto mb-6 flex flex-col gap-3 h-[25rem] bg-main-page bg-cover'
+      {/* <div 
+        className='px-[14%] py-5 mx-auto mb-6 flex flex-col gap-3 h-[40rem] bg-main-page bg-cover'
       >
         <div className='mt-20 ml-20'>
           <p className='font-semibold text-2xl text-white'>Find Your Next Vacation Spot</p>
@@ -19,10 +20,13 @@ export default function Home() {
               placeholder='Search by location...'
               className='outline-none border border-gray-400 rounded-lg w-1/3 px-3 focus-within:border-blue-600'
             />
-            <Button text='Search' dark type='button'/>
+            <button className="flex items-center justify-center gap-2 px-6 py-2 bg-black text-white rounded-3xl">
+                Search
+            </button>
       </div>
         </div>
-      </div>
+      </div> */}
+      <HeroSection />
       <Properties/>
     </div>
   );

@@ -13,7 +13,7 @@ export default {
         foreground: "var(--foreground)",
       },
       backgroundImage: {
-        'main-page': 'url(/Main-cleanup.png)'
+        'main-page': 'url(/white-concrete-apartment-buildings.jpg)'
       }
     },
   },
